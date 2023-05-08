@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "store-api"
+version = "0.1.0"
+description = "flask marketplace api"
+authors = [
+  "pedro.ferrari <pedro.ferrari@timenow.com.br>"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+flask = "^2.3.2"
+flask-smorest = "^0.41.0"
+flask-marshmallow = "^0.15.0"
+flask-sqlalchemy = "^3.0.3"
+marshmallow = "^3.19.0"
+sqlalchemy = "^2.0.12"
+python-dotenv = "^1.0.0"
+sqlalchemy-serializer = "^1.4.1"
+dynaconf = "^3.1.12"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+pyproject-flake8 = '^0.0.1a4'
+flake8-print = "^5.0.0"
+flake8-docstrings = "^1.6.0"
+flake8-annotations = "^2.9.1"
+isort = "^5.10.1"
+bandit = {version = "^1.7.4", extras = ['toml']}
+black = "^22.6.0"
+pre-commit = "^2.20.0"
+commitizen = "^2.32.2"
+flake8-bugbear = "^22.8.23"
+yamllint = "^1.27.1"
+safety = "^2.3.5"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+# dependencies configuration
+[tool.black]
+line-length = 119
+targer-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | \.env
+  | cdk.out
+  | \.vscode
+  | build
+  | dist
+  | \.mypy_cache
+  | \.idea
+)\
+'''
+
+
+[tool.isort]
+profile = 'black'
+force_single_line = true
+combine_as_imports = true
+lines_between_types = 1
+lines_after_imports = 2
+src_paths = ["project", "tests"]
+line_length = 119
+
+
+[tool.flake8]
+max-line-length = 119
+select = [
+  "C",
+  "E",
+  "W",
+  "F",
+  "N",
+  "B",
+  #"ANN", # verificador de type annotations
+  "T",
+  "D",
+  "B950",
+]
+ignore = [
+  "E203",
+  "E501",
+  "D202",
+  "D400",
+  "D100",
+  "D104",
+  "ANN003",
+  "ANN002",
+  "ANN1",
+]
+per-file-ignores = [
+  "tests/*:ANN,D"
+]
+exclude = [
+  ".venv/*",
+  ".idea/*",
+  ".vscode/*"
+]
+
+
+[tool.bandit]
+skips = [
+  "B101"
+]
+exclude_dirs = [
+  ".venv"
+]

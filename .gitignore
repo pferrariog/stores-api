@@ -1,0 +1,7 @@
+/instance
+venv
+.venv
+.env
+secrets.toml
+settings.toml
+__pycache__
