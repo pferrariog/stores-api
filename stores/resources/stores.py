@@ -12,7 +12,7 @@ from stores.extensions.schemas import StoreUpdateSchema
 blp = Blueprint("stores", __name__, description="Store operations")
 
 
-@blp.route("/stores/<string:store_id>")
+@blp.route("/stores/<int:store_id>")
 class Stores(MethodView):
     """Specific store operations"""
 
@@ -23,7 +23,7 @@ class Stores(MethodView):
         return store
 
     @blp.arguments(StoreUpdateSchema)
-    @blp.response(201, StoreSchema)
+    @blp.response(200, StoreSchema)
     def put(self, id):
         """Update store data"""
         raise NotImplementedError
@@ -55,7 +55,7 @@ class StoresList(MethodView):
             db.session.add(store)
             db.session.commit()
         except IntegrityError:
-            abort(400, description="Store with given name already exists")
+            abort(400, message="Store with given name already exists")
         except SQLAlchemyError as error:
-            abort(500, description=f"Error {error} while inserting product to database")
+            abort(500, message=f"Error {error} while inserting store to database")
         return store

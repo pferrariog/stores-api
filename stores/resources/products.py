@@ -12,7 +12,7 @@ from stores.extensions.schemas import ProductUpdateSchema
 blp = Blueprint("products", __name__, description="Products operations")
 
 
-@blp.route("/products/<string:product_id>")
+@blp.route("/products/<int:product_id>")
 class Products(MethodView):
     """Specific product operations"""
 
@@ -64,7 +64,7 @@ class ProductsList(MethodView):
             db.session.add(product)
             db.session.commit()
         except IntegrityError:
-            abort(400, description="Product with given name already exists")
+            abort(400, message="Product with given name already exists")
         except SQLAlchemyError as error:
-            abort(500, description=f"Error {error} while inserting product to database")
+            abort(500, message=f"Error {error} while inserting product to database")
         return product

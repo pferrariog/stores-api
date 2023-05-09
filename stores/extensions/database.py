@@ -16,8 +16,9 @@ class StoresModel(db.Model, SerializerMixin):
     name = db.Column(db.String(255), unique=True, nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.now())
     products = db.relationship(
-        "ProductsModel", back_populates="store", cascade="all, delete"  # delete products
+        "ProductsModel", back_populates="store", cascade="all, delete"  # delete product
     )  # attribute one to many (array)
+    tags = db.relationship("TagsModel", back_populates="store")  # one to many (array)
 
 
 class ProductsModel(db.Model, SerializerMixin):
@@ -29,7 +30,18 @@ class ProductsModel(db.Model, SerializerMixin):
     name = db.Column(db.String(255), unique=True, nullable=False)
     price = db.Column(db.Float(precision=2), nullable=False)
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"), nullable=False)
-    store = db.relationship("StoresModel", back_populates="products")  # attribute many to one
+    store = db.relationship("StoresModel", back_populates="products")  # many to one
+
+
+class TagsModel(db.Model, SerializerMixin):
+    """Default Tags Model"""
+
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    name = db.Column(db.String(255), unique=False, nullable=False)
+    store_id = db.Column(db.Integer, db.ForeignKey("stores.id"), nullable=False)
+    store = db.relationship("StoresModel", back_populates="tags")  # many to one
 
 
 def init_app(app):

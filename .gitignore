@@ -5,3 +5,5 @@ venv
 secrets.toml
 settings.toml
 __pycache__
+.vscode
+.idea
