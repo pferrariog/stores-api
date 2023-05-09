@@ -29,6 +29,7 @@ class ProductSchema(PlainProductSchema):
 
     store_id = fields.Int(required=True, load_only=True)
     store = fields.Nested(PlainStoreSchema(), dump_only=True)
+    tags = fields.List(fields.Nested(PlainTagSchema(), dump_only=True))
 
 
 class StoreSchema(PlainStoreSchema):
@@ -43,6 +44,7 @@ class TagSchema(PlainTagSchema):
 
     store_id = fields.Int(load_only=True)
     store = fields.Nested(PlainStoreSchema(), dump_only=True)
+    products = fields.List(fields.Nested(PlainProductSchema(), dump_only=True))
 
 
 class ProductUpdateSchema(Schema):
@@ -57,3 +59,11 @@ class StoreUpdateSchema(Schema):
     """Store schema used to update objects"""
 
     name = fields.Str()
+
+
+class ProductTagSchema(Schema):
+    """Product and tags link schema"""
+
+    message = fields.Str()
+    products = fields.Nested(ProductSchema)
+    tags = fields.Nested(TagSchema)

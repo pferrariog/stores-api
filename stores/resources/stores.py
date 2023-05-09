@@ -3,7 +3,7 @@ from flask_smorest import Blueprint
 from flask_smorest import abort
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import SQLAlchemyError
-from stores.extensions.database import StoresModel
+from stores.extensions.database import StoreModel
 from stores.extensions.database import db
 from stores.extensions.schemas import StoreSchema
 from stores.extensions.schemas import StoreUpdateSchema
@@ -19,7 +19,7 @@ class Stores(MethodView):
     @blp.response(200, StoreSchema)
     def get(self, id):
         """Get store by ID"""
-        store = StoresModel.query.get_or_404(id, description="Store id not found")
+        store = StoreModel.query.get_or_404(id, description="Store id not found")
         return store
 
     @blp.arguments(StoreUpdateSchema)
@@ -31,7 +31,7 @@ class Stores(MethodView):
     @blp.response(204)
     def delete(self, id):
         """Delete store by ID"""
-        store = StoresModel.query.get_or_404(id, description="Store id not found")
+        store = StoreModel.query.get_or_404(id, description="Store id not found")
         db.session.delete(store)
         db.session.commit()
 
@@ -43,14 +43,13 @@ class StoresList(MethodView):
     @blp.response(200, StoreSchema(many=True))
     def get(self):
         """Get all stores from database"""
-        stores = StoresModel.query.all()
+        stores = StoreModel.query.all()
         return stores
 
-    @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
     def post(self, data):
         """Insert a store in database"""
-        store = StoresModel(**data)
+        store = StoreModel(**data)
         try:
             db.session.add(store)
             db.session.commit()
