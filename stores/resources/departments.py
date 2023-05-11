@@ -1,5 +1,6 @@
 from flask import jsonify
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask_smorest import abort
 from sqlalchemy.exc import SQLAlchemyError
@@ -29,6 +30,7 @@ class Tags(MethodView):
         """Update tag by ID"""
         raise NotImplementedError
 
+    @jwt_required()
     @blp.response(204, description="Deletes the tag if not linked to a product")
     @blp.alt_response(400, description="Abort if the tag is associated to a product")
     def delete(self, tag_id):
@@ -52,6 +54,8 @@ class StoreTags(MethodView):
         store = StoreModel.query.get_or_404(store_id, description="Store id not found")
         return store.tags
 
+    @jwt_required()
+    @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, data, store_id):
         """Create a tag in a store"""
@@ -74,6 +78,8 @@ class StoreTags(MethodView):
 class ProductTags(MethodView):
     """Products and tags link operations"""
 
+    @jwt_required()
+    @blp.arguments(TagSchema)
     @blp.response(201, TagSchema)
     def post(self, product_id, tag_id):
         """Link a department tag to a product"""
@@ -92,6 +98,7 @@ class ProductTags(MethodView):
 
         return tag
 
+    @jwt_required()
     @blp.response(200)
     def delete(self, product_id, tag_id):
         """Unlink a tag from a product"""

@@ -1,4 +1,5 @@
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask_smorest import abort
 from sqlalchemy.exc import IntegrityError
@@ -22,6 +23,7 @@ class Products(MethodView):
         product = ProductModel.query.get_or_404(id, description="Product id not found")
         return product
 
+    @jwt_required()
     @blp.arguments(ProductUpdateSchema)
     @blp.response(200, ProductSchema)
     def put(self, id, data):
@@ -37,6 +39,7 @@ class Products(MethodView):
         db.session.commit()
         return product
 
+    @jwt_required()
     @blp.response(204)
     def delete(self, id):
         """Delete product by ID"""
@@ -55,6 +58,8 @@ class ProductsList(MethodView):
         products = ProductModel.query.all()
         return products
 
+    @jwt_required()
+    @blp.arguments(ProductSchema)
     @blp.response(201, ProductSchema)
     def post(self, data):
         """Insert a product to database"""

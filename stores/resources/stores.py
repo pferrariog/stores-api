@@ -1,4 +1,5 @@
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask_smorest import abort
 from sqlalchemy.exc import IntegrityError
@@ -22,12 +23,14 @@ class Stores(MethodView):
         store = StoreModel.query.get_or_404(id, description="Store id not found")
         return store
 
+    @jwt_required()
     @blp.arguments(StoreUpdateSchema)
     @blp.response(200, StoreSchema)
     def put(self, id):
         """Update store data"""
         raise NotImplementedError
 
+    @jwt_required()
     @blp.response(204)
     def delete(self, id):
         """Delete store by ID"""
@@ -46,6 +49,8 @@ class StoresList(MethodView):
         stores = StoreModel.query.all()
         return stores
 
+    @jwt_required()
+    @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
     def post(self, data):
         """Insert a store in database"""

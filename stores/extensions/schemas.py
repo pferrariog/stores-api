@@ -67,3 +67,11 @@ class ProductTagSchema(Schema):
     message = fields.Str()
     products = fields.Nested(ProductSchema)
     tags = fields.Nested(TagSchema)
+
+
+class UserSchema(Schema):
+    """Default users schema"""
+
+    id = fields.Int(dump_only=True)
+    username = fields.Str(required=True)
+    password = fields.Str(required=True, load_only=True)
