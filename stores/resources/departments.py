@@ -30,7 +30,7 @@ class Tags(MethodView):
         """Update tag by ID"""
         raise NotImplementedError
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.response(204, description="Deletes the tag if not linked to a product")
     @blp.alt_response(400, description="Abort if the tag is associated to a product")
     def delete(self, tag_id):

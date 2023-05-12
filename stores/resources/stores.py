@@ -30,7 +30,7 @@ class Stores(MethodView):
         """Update store data"""
         raise NotImplementedError
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         """Delete store by ID"""

@@ -23,7 +23,7 @@ class Products(MethodView):
         product = ProductModel.query.get_or_404(id, description="Product id not found")
         return product
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(ProductUpdateSchema)
     @blp.response(200, ProductSchema)
     def put(self, id, data):
@@ -39,7 +39,7 @@ class Products(MethodView):
         db.session.commit()
         return product
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         """Delete product by ID"""

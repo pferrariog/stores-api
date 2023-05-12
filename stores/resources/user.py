@@ -1,12 +1,16 @@
 from flask import jsonify
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_refresh_token
+from flask_jwt_extended import get_jwt
+from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 from flask_smorest import abort
 from passlib.hash import pbkdf2_sha256
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.exc import SQLAlchemyError
+from stores.extensions.auth import BLOCKLIST
 from stores.extensions.database import UserModel
 from stores.extensions.database import db
 from stores.extensions.schemas import UserSchema
@@ -54,8 +58,37 @@ class UserLogin(MethodView):
         if not pbkdf2_sha256.verify(data["password"], user.password):
             abort(401, message="Invalid credentials")
 
-        access_token = create_access_token(identity=user.id)
-        return jsonify(access_token=access_token)
+        access_token = create_access_token(identity=user.id, fresh=True)
+        refresh_token = create_refresh_token(identity=user.id)
+        return jsonify(access_token=access_token, refresh_token=refresh_token)
+
+
+@blp.route("/logout")
+class UserLogout(MethodView):
+    """User logout endpoint"""
+
+    @jwt_required()
+    @blp.response(200)
+    def post(self):
+        """Logout the user with given data/ID"""
+        jti = get_jwt()["jti"]
+        BLOCKLIST.add(jti)
+        return jsonify(message="Successful logout")
+
+
+@blp.route("/refresh")
+class TokenRefresh(MethodView):
+    """Refresh current access token"""
+
+    @jwt_required(refresh=True)
+    @blp.response(200)
+    def post(self, access_token):
+        """Create a non-fresh token when the given access token expires"""
+        current = get_jwt_identity()
+        new_token = create_access_token(identity=current.id, fresh=False)
+        jti = get_jwt()["jti"]
+        BLOCKLIST.add(jti)
+        return jsonify(access_token=new_token)
 
 
 @blp.route("/user/<int:id>")
@@ -69,7 +102,7 @@ class User(MethodView):
         user = UserModel.query.get_or_404(id)
         return user
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         """Delete an user from database by ID"""
