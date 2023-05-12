@@ -2,6 +2,8 @@
 venv
 .venv
 .env
-secrets.toml
+.secrets.toml
 settings.toml
 __pycache__
+.vscode
+.idea
