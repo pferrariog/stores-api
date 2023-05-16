@@ -1,6 +1,6 @@
 FROM python:3.11.3
 
-RUN apt-get update -y && apt-get install -y python3-pip python3-dev
+# RUN apt-get update -y && apt-get install -y python3-pip python3-dev
 
 WORKDIR /app
 
@@ -12,6 +12,6 @@ RUN poetry install --no-dev
 
 EXPOSE 5000
 
-ENTRYPOINT ["poetry"]
+ENTRYPOINT ["poetry", "run"]
 
-CMD ["run", "flask", "run","--host=0.0.0.0"]
+CMD ["flask", "run", "--host", "0.0.0.0"]
