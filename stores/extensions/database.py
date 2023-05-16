@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy_serializer import SerializerMixin
 
@@ -74,5 +75,4 @@ def init_app(app):
     """Link the database to current app"""
     db.init_app(app)
     app.db = db
-    with app.app_context():
-        db.create_all()
+    Migrate(app, db)
