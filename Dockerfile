@@ -12,6 +12,8 @@ RUN poetry install --no-dev
 
 EXPOSE 5000
 
+ENV FLASK_APP=stores/app.py
+
 ENTRYPOINT ["poetry", "run"]
 
 CMD ["flask", "run", "--host", "0.0.0.0"]
