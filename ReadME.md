@@ -6,8 +6,7 @@ Created to simulate an marketplace where an user can register yourself and your 
 ## Requirements
 
 - Python 3.10+
-- Poetry 1.3+
-- Docker 23.0+ (Optional)
+- Docker 23.0+
 
 ## Usage
 
@@ -19,28 +18,7 @@ Created to simulate an marketplace where an user can register yourself and your 
   - .secrets.toml - Here goes enviroment secrets
   - .env - Here goes your flask configurations
 
-- Create and activate virtual env + install requirements from pyproject.toml
-
-```sh
-    poetry shell
-    poetry install
-```
-
-- Make database migration
-
-```sh
-    flask db init  # just on first time
-    flask db migrate
-    flask db upgrade  # set latest version
-```
-
-- Run flask app after setting the app path in a .env file
-
-```sh
-    flask run
-```
-
-- If running with Docker, just run the commands below
+- Build the image and run the container
 
 ```sh
     docker build -t $IMAGE_NAME .
@@ -51,4 +29,5 @@ Created to simulate an marketplace where an user can register yourself and your 
 
 - Add admin statement to JWT Claims
 - Set blocklist on redis
-- Update readme and contributing file
+- Improve Dockerfile with stages
+- Add Unit Tests
