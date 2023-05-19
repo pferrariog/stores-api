@@ -43,11 +43,12 @@ Created to simulate an marketplace where an user can register yourself and your 
 - If running with Docker, just run the commands below
 
 ```sh
-    docker build -t mkt_image .
-    docker run -d -p 5000:5000 --name mktplace_container mkt_image
+    docker build -t $IMAGE_NAME .
+    docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME
 ```
 
 ## TODO
 
 - Add admin statement to JWT Claims
 - Set blocklist on redis
+- Update readme and contributing file
