@@ -7,4 +7,3 @@ settings.toml
 __pycache__
 .vscode
 .idea
-migrations
