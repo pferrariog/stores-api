@@ -1,3 +1,4 @@
+from flask import current_app
 from flask import jsonify
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
@@ -13,6 +14,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from stores.extensions.auth import BLOCKLIST
 from stores.extensions.database import UserModel
 from stores.extensions.database import db
+from stores.extensions.messages import register_mail_sender
+from stores.extensions.schemas import UserRegisterSchema
 from stores.extensions.schemas import UserSchema
 
 
@@ -23,7 +26,7 @@ blp = Blueprint("users", __name__, description="User operations")
 class UserRegister(MethodView):
     """User register endpoint methods"""
 
-    @blp.arguments(UserSchema)
+    @blp.arguments(UserRegisterSchema)
     @blp.response(201)
     def post(self, data):
         """Register an user in database"""
@@ -35,9 +38,11 @@ class UserRegister(MethodView):
             db.session.add(user)
             db.session.commit()
         except IntegrityError:
-            abort(400, message="Username already exists")
+            abort(400, message="Username or email already exists")
         except SQLAlchemyError as error:
             abort(500, message=f"Error {error} while inserting product to database")
+
+        current_app.queue.enqueue(register_mail_sender, user.email, user.username)
 
         return jsonify(message=f"User {data['username']} created")
 
