@@ -8,6 +8,8 @@ COPY . .
 
 RUN poetry install --without dev --no-cache --no-interaction
 
+EXPOSE 443
+
 RUN chmod +x /app/docker-entrypoint.sh
 
 CMD ["./docker-entrypoint.sh"]

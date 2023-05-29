@@ -1,7 +1,7 @@
 
 # MarketPlace API
 
-Created to simulate an marketplace where an user can register yourself and your stores w/ their own products based on department tags
+Created to simulate a marketplace where an user can register yourself and your stores w/ their own products based on department tags
 
 ## Requirements
 
@@ -31,3 +31,4 @@ Created to simulate an marketplace where an user can register yourself and your 
 - Set blocklist on redis
 - Improve Dockerfile with stages
 - Add Unit Tests
+- Change to docker-compose

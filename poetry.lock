@@ -62,6 +62,18 @@ lint = ["flake8", "mypy"]
 test = ["coverage", "flake8", "mypy", "pexpect", "wheel"]
 
 [[package]]
+name = "async-timeout"
+version = "4.0.2"
+description = "Timeout context manager for asyncio programs"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
+    {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
+]
+
+[[package]]
 name = "attrs"
 version = "23.1.0"
 description = "Classes Without Boilerplate"
@@ -1161,6 +1173,18 @@ files = [
 cli = ["click (>=5.0)"]
 
 [[package]]
+name = "python-http-client"
+version = "3.3.7"
+description = "HTTP REST client, simplified for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+files = [
+    {file = "python_http_client-3.3.7-py3-none-any.whl", hash = "sha256:ad371d2bbedc6ea15c26179c6222a78bc9308d272435ddf1d5c84f068f249a36"},
+    {file = "python_http_client-3.3.7.tar.gz", hash = "sha256:bf841ee45262747e00dec7ee9971dfb8c7d83083f5713596488d67739170cea0"},
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0"
 description = "YAML parser and emitter for Python"
@@ -1229,6 +1253,25 @@ prompt_toolkit = ">=2.0,<4.0"
 docs = ["Sphinx (>=3.3,<4.0)", "sphinx-autobuild (>=2020.9.1,<2021.0.0)", "sphinx-autodoc-typehints (>=1.11.1,<2.0.0)", "sphinx-copybutton (>=0.3.1,<0.4.0)", "sphinx-rtd-theme (>=0.5.0,<0.6.0)"]
 
 [[package]]
+name = "redis"
+version = "4.5.5"
+description = "Python client for Redis database and key-value store"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "redis-4.5.5-py3-none-any.whl", hash = "sha256:77929bc7f5dab9adf3acba2d3bb7d7658f1e0c2f1cafe7eb36434e751c471119"},
+    {file = "redis-4.5.5.tar.gz", hash = "sha256:dc87a0bdef6c8bfe1ef1e1c40be7034390c2ae02d92dcd0c7ca1729443899880"},
+]
+
+[package.dependencies]
+async-timeout = {version = ">=4.0.2", markers = "python_full_version <= \"3.11.2\""}
+
+[package.extras]
+hiredis = ["hiredis (>=1.0.0)"]
+ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"]
+
+[[package]]
 name = "requests"
 version = "2.30.0"
 description = "Python HTTP for Humans."
@@ -1268,6 +1311,22 @@ pygments = ">=2.13.0,<3.0.0"
 
 [package.extras]
 jupyter = ["ipywidgets (>=7.5.1,<9)"]
+
+[[package]]
+name = "rq"
+version = "1.14.1"
+description = "RQ is a simple, lightweight, library for creating background jobs, and processing them."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "rq-1.14.1-py2.py3-none-any.whl", hash = "sha256:37e003db1da205e08db6cc4653b7c6ccfd9292000954240308abfce2ebde43ba"},
+    {file = "rq-1.14.1.tar.gz", hash = "sha256:5fb86038922ddd76eb2d9aa0adeec6dcf64f159dbbe730b26358b1417120dd44"},
+]
+
+[package.dependencies]
+click = ">=5.0.0"
+redis = ">=3.5.0"
 
 [[package]]
 name = "ruamel-yaml"
@@ -1357,6 +1416,22 @@ setuptools = ">=19.3"
 [package.extras]
 github = ["jinja2 (>=3.1.0)", "pygithub (>=1.43.3)"]
 gitlab = ["python-gitlab (>=1.3.0)"]
+
+[[package]]
+name = "sendgrid"
+version = "6.10.0"
+description = "Twilio SendGrid library for Python"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+files = [
+    {file = "sendgrid-6.10.0-py3-none-any.whl", hash = "sha256:522b30fc98306496208c5d8bdd5642cd6a2fd65cad487475f57f9098ce880604"},
+    {file = "sendgrid-6.10.0.tar.gz", hash = "sha256:9b15050c6f8826ee576f76a786efb15d956639f485478cbddd79ed69e8350ab8"},
+]
+
+[package.dependencies]
+python-http-client = ">=3.2.1"
+starkbank-ecdsa = ">=2.0.1"
 
 [[package]]
 name = "setuptools"
@@ -1490,6 +1565,17 @@ files = [
 
 [package.dependencies]
 SQLAlchemy = "*"
+
+[[package]]
+name = "starkbank-ecdsa"
+version = "2.2.0"
+description = "A lightweight and fast pure python ECDSA library"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "starkbank-ecdsa-2.2.0.tar.gz", hash = "sha256:9399c3371b899d4a235b68a1ed7919d202fbf024bd2c863ae8ebdad343c2a63a"},
+]
 
 [[package]]
 name = "stevedore"
@@ -1683,4 +1769,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.12"
-content-hash = "ee7ab57cb013a42074019a42b9d888cc65f78e9e0c66b05e34c229cbbda2ce96"
+content-hash = "f2e7ae50f296ba6a6f4c556c7794f0be6343d8b07bf0c0d1810946d530c0abcd"
