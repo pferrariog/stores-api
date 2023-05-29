@@ -1,4 +1,3 @@
-from flask import current_app
 from flask import jsonify
 from flask.views import MethodView
 from flask_jwt_extended import create_access_token
@@ -42,7 +41,8 @@ class UserRegister(MethodView):
         except SQLAlchemyError as error:
             abort(500, message=f"Error {error} while inserting product to database")
 
-        current_app.queue.enqueue(register_mail_sender, user.email, user.username)
+        # current_app.queue.enqueue(register_mail_sender, user.email, user.username)
+        register_mail_sender(user.email, user.username)
 
         return jsonify(message=f"User {data['username']} created")
 

@@ -1,11 +1,22 @@
 from os import getenv
+from pathlib import Path
 
 from dotenv import load_dotenv
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
+from jinja2 import select_autoescape
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 
 load_dotenv("./.env")
+loader = FileSystemLoader(Path(__file__).parent.parent / "templates")
+environment = Environment(loader=loader, autoescape=select_autoescape())
+
+
+def render_template(filename, **data):
+    """Render the template with given variables"""
+    return environment.get_template(filename).render(**data)
 
 
 def message_builder(to, subject, body):
@@ -29,7 +40,5 @@ def register_mail_sender(email, username):
     return mail_sender(
         to=email,
         subject="Welcome to the Marketplace API",
-        body=f"<p>Hello {username} and Congratulations! You successfully signed up!<p/> \
-        <p>Get to the /login endpoint to retrieve your access token and start using the API.<p/> \
-        <p>Try follow the documentation on the /docs endpoint and enjoy it!",
+        body=render_template("emails/register.html", username=username),
     )

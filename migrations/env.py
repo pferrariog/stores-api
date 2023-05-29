@@ -27,7 +27,7 @@ def get_engine():
 
 
 def get_engine_url():
-    """Format engine url"""
+    """Format engine URL"""
     try:
         return get_engine().url.render_as_string(hide_password=False).replace("%", "%%")
     except AttributeError:
@@ -48,7 +48,7 @@ target_db = current_app.extensions["migrate"].db
 
 
 def get_metadata():
-    """Database Metadata"""
+    """Get current metadata"""
     if hasattr(target_db, "metadatas"):
         return target_db.metadatas[None]
     return target_db.metadata
